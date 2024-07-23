@@ -14,7 +14,7 @@ typedef struct dog
 	char *name;
 	float age;
 	char *owner;
-}dog_h;
+}dog_t;
 
 
 /* Function prototpe*/
