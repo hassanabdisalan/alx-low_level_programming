@@ -2,15 +2,22 @@
 #include <stdlib.h>
 
 /**
- * free_dog - Frees dogs.
- * @d: The dog to free.
+ * free_dog - Frees memory allocated for a dog structure.
+ * @d: Pointer to the dog structure to be freed.
  */
 void free_dog(dog_t *d)
 {
-	if (d != NULL)
-	{
-		free(d->name);
+	/* Check if the pointer to the dog structure is not NULL */
+	if (d == NULL)
+		return;
+
+	/* Free the name and owner strings if they are not NULL */
+	if (d->name != NULL)
+ 		free(d->name);
+
+	if (d->owner != NULL)
 		free(d->owner);
-		free(d);
-	}
+
+	/* Free the memory allocated for the dog structure itself */
+	free(d);
 }
