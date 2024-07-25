@@ -1,92 +1,113 @@
-#include <stdarg.h>
+#include "variadic_functions.h"
 #include <stdio.h>
 
-/* Function prototypes */
-void print_char(va_list args, int *printed);
-void print_int(va_list args, int *printed);
-void print_float(va_list args, int *printed);
-void print_string(va_list args, int *printed);
+/**
+* print_char - Prints a char.
+* @arg: A list of arguments pointing to
+* the character to be printed.
+*/
+void print_char(va_list arg)
+{
+char letter;
+
+letter = va_arg(arg, int);
+
+printf("%c", letter);
+}
 
 /**
- * print_all - prints anything, followed by a new line
- * @format: list of types of arguments passed to the function
- */
+* print_int - Prints an int.
+* @arg: A list of arguments pointing to
+* the integer to be printed.
+*/
+void print_int(va_list arg)
+{
+int num;
+
+num = va_arg(arg, int);
+
+printf("%d", num);
+}
+
+
+/**
+* print_float - Prints a float.
+* @arg: A list of arguments pointing to
+* the float to be printed.
+*/
+void print_float(va_list arg)
+{
+float num;
+
+num = va_arg(arg, double);
+
+printf("%f", num);
+}
+
+
+
+/**
+* print_string - Prints a string.
+* @arg: A list of arguments pointing to
+* the string to be printed.
+*/
+void print_string(va_list arg)
+{
+char *str;
+
+str = va_arg(arg, char *);
+
+if (str == NULL)
+{
+printf("(nil)");
+return;
+}
+
+printf("%s", str);
+}
+
+/**
+*print_all - prints anything
+*@format: format of input
+*
+*Return: nothing
+*/
 void print_all(const char * const format, ...)
 {
 va_list args;
-unsigned int i = 0;
-int printed = 0;
+
+int i = 0, j = 0;
+
+char *separator = "";
+
+printer_t funcs[] = {
+{"c", print_char},
+{"i", print_int},
+{"f", print_float},
+{"s", print_string}
+};
 
 va_start(args, format);
-while (format && format[i])
+
+while (format && (*(format + i)))
 {
-if (format[i] == 'c')
-print_char(args, &printed);
-else if (format[i] == 'i')
-print_int(args, &printed);
-else if (format[i] == 'f')
-print_float(args, &printed);
-else if (format[i] == 's')
-print_string(args, &printed);
+j = 0;
+
+while (j < 4 && (*(format + i) != *(funcs[j].symbol)))
+j++;
+
+if (j < 4)
+{
+printf("%s", separator);
+funcs[j].print(args);
+separator = ", ";
+}
+
 i++;
+
 }
-va_end(args);
+
 printf("\n");
-}
 
-/**
- * print_char - prints a character
- * @args: the list of arguments
- * @printed: flag to check if something has been printed
- */
-void print_char(va_list args, int *printed)
-{
-if (*printed)
-printf(", ");
-printf("%c", va_arg(args, int));
-*printed = 1;
+va_end(args);
 }
-
-/**
- * print_int - prints an integer
- * @args: the list of arguments
- * @printed: flag to check if something has been printed
- */
-void print_int(va_list args, int *printed)
-{
-if (*printed)
-printf(", ");
-printf("%d", va_arg(args, int));
-*printed = 1;
-}
-
-/**
- * print_float - prints a float
- * @args: the list of arguments
- * @printed: flag to check if something has been printed
- */
-void print_float(va_list args, int *printed)
-{
-if (*printed)
-printf(", ");
-printf("%f", va_arg(args, double));
-*printed = 1;
-}
-
-/**
- * print_string - prints a string
- * @args: the list of arguments
- * @printed: flag to check if something has been printed
- */
-void print_string(va_list args, int *printed)
-{
-char *str = va_arg(args, char *);
-if (*printed)
-printf(", ");
-if (str == NULL)
-printf("(nil)");
-else
-printf("%s", str);
-*printed = 1;
-}
-
