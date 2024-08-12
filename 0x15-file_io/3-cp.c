@@ -2,17 +2,21 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdarg.h>
 #include "main.h"
 
 /**
  * print_error - prints an error message to stderr.
  * @exit_code: exit code to return.
  * @format: format string for the error message.
- * @arg: argument for the format string.
+ * @...: arguments for the format string.
  */
-void print_error(int exit_code, const char *format, const char *arg)
+void print_error(int exit_code, const char *format, ...)
 {
-dprintf(2, format, arg);
+va_list args;
+va_start(args, format);
+vfprintf(stderr, format, args);
+va_end(args);
 exit(exit_code);
 }
 
