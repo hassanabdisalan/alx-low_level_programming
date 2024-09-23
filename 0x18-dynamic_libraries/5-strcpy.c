@@ -7,18 +7,6 @@
  * Return: pointer to first occurence.
  *			NULL if not present.
 */
-
-char *_strchr(char *s, char c)
+char *_strncpy(char *dest, char *src, int n)
 {
-	char *point = s;
-
-	while (*point != '\0')
-	{
-		if (*point == c)
-		{
-			return (point);
-		}
-		point++;
-	}
-	return (NULL);
 }
