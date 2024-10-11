@@ -1,12 +1,12 @@
 section .data
-    hello db 'Hello, Holberton', 10, 0  ; The string to print, with newline and null terminator
-    fmt db '%s', 0                      ; Format string for printf
+    hello db 'Hello, Holberton', 10, 0  ; The string with newline and null terminator
+    fmt db '%s', 0                      ; The format string for printf
 
 section .text
     extern printf
-    global _entry
+    global _start
 
-_entry:
+_start:
     ; Prepare the arguments for printf
     mov rdi, fmt         ; Format string
     mov rsi, hello       ; String to print
